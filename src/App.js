@@ -13,7 +13,7 @@ function App() {
   const [dateString, setDateString] = useState("")
   const loading = document.getElementById("loading")
   const CLIENT_ID = "063f0ced1a1040038bf1d4f33e5808e4"
-  const REDIRECT_URI = "http://localhost:3000/callback"
+  const REDIRECT_URI = "https://nskalberg.github.io/tapeify/callback"
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
   const RESPONSE_TYPE = "token"
   const [timeframe, setTimeframe] = useState("6 MONTHS")
