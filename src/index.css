@@ -1,13 +1,253 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: 'myFirstFont';
+  src: url("./fonts/PhontPhreaks Handwriting.ttf");
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.main {
+  display:flex;
+  flex-direction:column;
+  width: 550px;
+  justify-content:right;
+}
+
+form {
+  display:flex;
+  justify-content:right;
+  flex-direction:column;
+  flex-wrap: wrap;
+}
+
+.form--input {
+  width: 400px;
+  margin-left: auto;
+  height: 30px;
+  margin-bottom: 20px
+}
+
+.card {
+  position: absolute;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 400px;
+  width: 240px;
+  top: 75px;
+  left: 35px;
+  display: flex;
+  background-image: url("./images/card.png");
+  flex-direction: column;
+  transform: rotate(-2deg);
+  box-sizing: border-box;
+  /* animation: 4s ease-in-out 0s 1 spinCassette; */
+}
+
+#spotify-logo {
+  position: absolute;
+  height: 30px;
+  top: 510px;
+  left: 225px;
+}
+
+.card--image {
+  height: 100%;
+}
+
+.cassette {
+  position: absolute;
+  height: 390px;
+  transform: rotate(2deg);
+  top: 80px;
+  left: 270px;
+  filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.5));
+}
+
+.tape--image {
+  position: absolute;
+  left: 195px;
+  top: 245px;
+  height: 55px;
+  transform: rotate(92deg);
+}
+
+.tape--date_image {
+  position: absolute;
+  left: 310px;
+  top: 267px;
+  height: 28px;
+  transform: rotate(92deg);
+}
+
+.tape--date {
+  font-family: 'myFirstFont';
+  color: #00395d;
+  position: absolute;
+  left: 389px;
+  top: 266px;
+  transform: rotate(-88deg);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    filter: blur(10px);
+  }
+  100% {
+    filter: brightness(0px);
+  }
+}
+
+@keyframes spinCassette {
+  0% {
+    transform: rotate(360deg)
+  }
+  100% {
+    transform: rotate(-2deg)
+  }
+}
+
+.tape--text {
+  display: flex;
+  font-family: 'myFirstFont';
+  color: #00395d;
+  position: absolute;
+  left: 224px;
+  top: 234px;
+  height: 75px;
+  width: 200px;
+  transform: rotate(-88deg);
+  text-decoration: underline;
+  text-align: center;
+  align-items: center;
+  font-weight: bold;
+  justify-content: center;
+  text-wrap: nowrap;
+}
+
+.card--timeframe{
+  font-family: 'myFirstFont';
+  position: absolute;
+  transform: rotate(-90deg);
+  top: 275px;
+  left: -47px;
+  font-size: 36px;
+  color: #00395d;
+}
+
+.card--text {
+  font-family: 'myFirstFont';
+  font-size: 28px;
+  color: #00395d;
+  font-weight: normal;
+  line-height: 0.65;
+  width: 155px;
+  margin-left: 70px;
+  display: flex;
+  align-items: center;
+}
+
+#root {
+  display:flex;
+  align-items:center;
+  justify-content: center;
+}
+
+.image--container {
+  background:lightblue;
+  position: relative;
+  width: 550px;
+  height: 550px;
+  /* animation: 1.5s ease-in 0s 1 slideInFromLeft; */
+}
+
+h1 {
+  font-family: "myFirstFont";
+  text-align:center;
+  font-size: 72px;
+}
+
+.tape {
+  display: flex;
+  flex-direction: row;
+}
+
+.login {
+  display:flex;
+  background-color: black;
+  height: 200px;
+}
+
+.render--transform {
+  transform: scale(2) translate(25%, 25%)
+}
+
+.image--downloadable {
+  height:100%;
+  width:100%
+}
+
+@keyframes rotating {
+  from{
+  transform: rotate(0deg);
+  }
+  to{
+  transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation: rotating 2s linear infinite;
+}
+
+#loading {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  background-color: #fff;
+  z-index: 99;
+  transition: 1s;
+}
+
+#loading-image {
+  z-index: 100;
+  height: 150px;
+  width: auto;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+}
+.form > * {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px
+}
+
+#metadata {
+  display:flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.metadata--song {
+  color: black;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  font-family: "Inter";
+  font-size: 20px;
+}
+
+.metadata--logo {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  align-self:center;
+  height: 50px;
 }
