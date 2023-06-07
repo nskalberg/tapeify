@@ -5,15 +5,19 @@ import colorData from "./colorData"
 import $ from 'jquery'; 
 import domtoimage from 'dom-to-image'
 import Metadata from "./components/Metadata"
+import html2canvas from 'html2canvas';
 
 
 
 function App() {
   const [metadata, setMetadata] = useState([])
   const [dateString, setDateString] = useState("")
+  const [imageScale, setImageScale] = useState() 
+  const [isDone, setIsDone] = useState(false)
   const loading = document.getElementById("loading")
   const CLIENT_ID = "063f0ced1a1040038bf1d4f33e5808e4"
-  const REDIRECT_URI = "https://nskalberg.github.io/tapeify/callback"
+  const REDIRECT_URI = window.location.href.replace(/\/\$|\/#$/, "")
+  console.log(REDIRECT_URI)
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
   const RESPONSE_TYPE = "token"
   const [timeframe, setTimeframe] = useState("6 MONTHS")
@@ -21,13 +25,8 @@ function App() {
   const [username, setUsername] = useState("")
   const [token, setToken] = useState("")
   const [responseData, setResponseData] = useState({})
-  const [songData, setSongData] = useState([
-    "",
-    "",
-    "",
-    "",
-    ""
-  ])
+  const [songData, setSongData] = useState([])
+  const [marginValue, setMarginValue] = useState(0)
   const [formData, setFormData] = useState({
     color:"white",
     timeframe:"short_term"
@@ -36,6 +35,7 @@ function App() {
   let inkColor = ""
   let backgroundColor = ""
   let usernameOffset
+  const maxImageWidth = 550;
   setColorProperties()
 
   function fontSizeToInt(fontSize){
@@ -54,6 +54,8 @@ function App() {
     setTimeframe(formData.timeframe)
     setActiveColor(formData.color)
     setSongData([])
+    setMarginValue(0)
+    setIsDone(false)
     getUsername(token)
     getUserData(token)
   }
@@ -61,23 +63,35 @@ function App() {
   function done(){
     const finalImage=document.getElementById("image--container")
     const finalContents = document.getElementById("image--contents")
-    finalContents.classList.add("render--transform")
-    domtoimage.toPng(finalImage, {style: {height:"1100px", width: "1100px"}, height: 1100, width: 1100})
+    const tempScale = imageScale
+    finalImage.classList.add("render--transform")
+    finalImage.style.transform = "scale(2) translate(137.5px, 137.5px)"
+    finalImage.style.marginTop = "0px"
+    finalImage.style.marginBottom = "0px"
+    
+    setTimeout(() => { domtoimage.toPng(finalImage, {style: {height:"1100px", width: "1100px"}, height: 1100, width: 1100})
     .then(function (dataUrl) {
+      domtoimage.toPng(finalImage, {style: {height:"1100px", width: "1100px"}, height: 1100, width: 1100}).then(function (dataUrl1){
         //TODO -- make this a function from APP and pass down to this.
         const img = new Image();
-        img.src = dataUrl;
+        img.src = dataUrl1;
         img.id = "finalImage"
         img.classList.add("image--downloadable")
         //finalImage.innerHTML = ""
         finalImage.appendChild(img);
+        finalImage.style.transform = `scale(${imageScale})`
+        finalImage.style.marginTop = 
+        finalImage.style.marginBottom = `${-(550-(550*imageScale))/2}px`
+        finalImage.style.marginTop = `${-(550-(550*imageScale))/2}px`
+
         finalContents.style.display = "none"
-        finalContents.classList.remove("render--transform")
+        finalImage.classList.remove("render--transform")
         endLoading()
-    })
-        .catch(function (error) {
-        console.error('oops, something went wrong!', error);
-    });
+        
+      })
+
+    })}, 100)
+
   }
 
   function setColorProperties(){
@@ -96,9 +110,8 @@ function App() {
   }
 
   function endLoading(){
-    setTimeout(() => loading.style.opacity = 0, 1000)
-    console.log(loading)
-    setTimeout(() => loading.style.display = "none", 2000)
+    setTimeout(() => loading.style.opacity = 0, 500)
+    setTimeout(() => loading.style.display = "none", 1000)
   }
 
   //set color props when active color is changed
@@ -153,24 +166,20 @@ function App() {
     }).then((response) => {
       setUsername(response.data.display_name.toUpperCase())
     }).catch(() => {
-      console.log("ERROR")
+
     })
   }
 
   useEffect(() => {
     getToken()
 
-
-    // $( document ).ready(function() {
-    //   const usernameElement = document.getElementById("username")
-    //     console.log(usernameElement)
-    //     let size = parseInt(getComputedStyle(usernameElement).getPropertyValue('font-size'))
-    //     while(usernameElement.scrollWidth > 200){
-    //       usernameElement.style.fontSize = size + "px"
-    //       size -=1
-    //     }
-  
-    // });
+    if(maxImageWidth/window.innerWidth > 0.9 && !imageScale){
+      setImageScale((window.innerWidth*0.9)/550)
+      console.log((window.innerWidth*0.9)/550)
+    } else if (!imageScale) {
+      setImageScale(1)
+    }
+    document.getElementById("image--container").style.display = "block"
 
   }, [])
 
@@ -228,8 +237,6 @@ function App() {
     return `${fontSizeToInt(firstVal)+fontSizeToInt(secondVal)}px`
   }
 
-
-
   return (
     <div className="main">
       <script
@@ -259,16 +266,20 @@ function App() {
           <button onClick={create}>CREATE</button>
         </div>
       </header>
-      <div id="image--container" style={{backgroundColor: backgroundColor}} className="image--container">
+      <div id="image--container" style={{backgroundColor: backgroundColor, transform: `scale(${imageScale})`, marginTop: `${-(550-(550*imageScale))/2}px`, marginBottom: `${-(550-(550*imageScale))/2}px`}} className="image--container">
         <div id="image--contents" className="image--container_contents">
           <Card
             songData={songData}
             inkColor={inkColor}
-            backgroundColor={backgroundColor}
             activeColor={activeColor}
             timeframe={timeframe}
             done={done}
             fontSizeToInt={fontSizeToInt}
+            setSongData={setSongData}
+            isDone={isDone}
+            setIsDone={setIsDone}
+            marginValue={marginValue}
+            setMarginValue={setMarginValue}
           />
           <img className="cassette" src={require(`./images/cassette_${activeColor}.png`)} />
           <div className="tape">

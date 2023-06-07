@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import timeframeData from "../timeframeData"
 import domtoimage from 'dom-to-image';
+import $ from "jquery"
 
 export default function Card(props){
     
     const [cardFontSize, setCardFontSize] = useState('28px')
-    const [marginValue, setMarginValue] = useState(0)
-    const {songData, inkColor, timeframe, done, fontSizeToInt} = props
-    let topOffset, leftOffset, timeframeText
+    const {songData, inkColor, timeframe, done, fontSizeToInt, setSongData, isDone, setIsDone, marginValue, setMarginValue} = props
+    let topOffset, leftOffset, timeframeText, tempMargin
 
     timeframeData.map(time => {
         if(time.timeframe==timeframe){
@@ -16,39 +16,39 @@ export default function Card(props){
             timeframeText = time.cardText
         }
     })
-
-    //Calculate the margin value whenever cardFontSize updates.
-    useEffect(() => {
-    const card = document.getElementById("card")
-    if(card != null){
-        const children = card.children
-        let sumHeight = 0;
     
+    function calculateMargin(){
+        const card = document.getElementById("card")
+        if(card != null){
+            const children = card.children
+            let sumHeight = 0;
         for (let i = 0; i < children.length; i++) {
             const cardChild = children[i];
-            if(cardChild.className == "card--text"){
-            sumHeight += cardChild.clientHeight;
+            if(cardChild.className === "card--text"){
+                sumHeight += cardChild.offsetHeight;
             }
         }
-        setMarginValue(((card.clientHeight-40)-sumHeight)/10)
-    }
-    }, [songData, cardFontSize])
-
-    //Check and set font size whenever marginValue changes. If in the correct range, call done().
-    useEffect(() => {
-    if(marginValue != 0){
-        if(marginValue < 8){
-        setCardFontSize(prevFontSize => `${fontSizeToInt(prevFontSize)-1}px`)
-        console.log(cardFontSize)
-        } else
-        if(marginValue > 13){
-        fontSizeToInt(cardFontSize) < 30 && setCardFontSize(prevFontSize => `${fontSizeToInt(prevFontSize)+1}px`)
-        } else {
-            done()
+        return ((card.offsetHeight-40)-sumHeight)/10
         }
     }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [marginValue])
+
+    useEffect(() => {
+        console.log(calculateMargin(), marginValue)
+        if(songData.length !== 0 && isDone === false && marginValue === 0){
+            if(calculateMargin() < 8){
+                setCardFontSize(prevFontSize => `${fontSizeToInt(prevFontSize)-1}px`)
+            } else
+            if(calculateMargin() > 13){
+                setCardFontSize(prevFontSize => `${fontSizeToInt(prevFontSize)+1}px`)
+            } else {
+                setMarginValue(calculateMargin())
+            }
+        } else
+        if(marginValue !== 0 && !isDone){
+            setIsDone(true)
+            done()
+        }
+    })
 
     const songArray = songData.map(song => {
         return <div style={{marginTop: marginValue, marginBottom: marginValue, fontSize: cardFontSize, color:inkColor}} className="card--text">{song}</div>
