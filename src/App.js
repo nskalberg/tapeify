@@ -66,6 +66,7 @@ function App() {
     const tempScale = imageScale
     finalImage.classList.add("render--transform")
     finalImage.style.transform = "scale(2) translate(137.5px, 137.5px)"
+    finalImage.style.setProperty("webkit-transform", "scale(2) translate(137.5px, 137.5px")
     finalImage.style.marginTop = "0px"
     finalImage.style.marginBottom = "0px"
     
@@ -83,7 +84,7 @@ function App() {
         finalImage.style.marginTop = 
         finalImage.style.marginBottom = `${-(550-(550*imageScale))/2}px`
         finalImage.style.marginTop = `${-(550-(550*imageScale))/2}px`
-
+        finalImage.style.setProperty("webkit-transform", `scale(${imageScale})`)
         finalContents.style.display = "none"
         finalImage.classList.remove("render--transform")
         endLoading()
