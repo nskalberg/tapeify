@@ -10,6 +10,7 @@ import html2canvas from 'html2canvas';
 
 
 function App() {
+  console.log(navigator.userAgent)
   const [metadata, setMetadata] = useState([])
   const [dateString, setDateString] = useState("")
   const [imageScale, setImageScale] = useState() 
@@ -28,13 +29,14 @@ function App() {
   const [songData, setSongData] = useState([])
   const [marginValue, setMarginValue] = useState(0)
   const [formData, setFormData] = useState({
-    color:"white",
-    timeframe:"short_term"
+    color:"",
+    timeframe:""
   })
   const [activeColor, setActiveColor] = useState('white')
   let inkColor = ""
   let backgroundColor = ""
   let usernameOffset
+  let imagesLoaded = []
   const maxImageWidth = 550;
   setColorProperties()
 
@@ -52,8 +54,8 @@ function App() {
     const date = new Date();
     setDateString((date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear())
     setTimeframe(formData.timeframe)
-    setActiveColor(formData.color)
     setSongData([])
+    imagesLoaded = []
     setMarginValue(0)
     setIsDone(false)
     getUsername(token)
@@ -63,35 +65,39 @@ function App() {
   function done(){
     const finalImage=document.getElementById("image--container")
     const finalContents = document.getElementById("image--contents")
-    const tempScale = imageScale
     finalImage.classList.add("render--transform")
-    finalImage.style.transform = "scale(2) translate(137.5px, 137.5px)"
-    finalImage.style.setProperty("webkit-transform", "scale(2) translate(137.5px, 137.5px")
+    finalImage.style.webkitTransform = "scale(2)"
+    finalContents.style.webkitTransform = "translate(137.5px, 137.5px)"
     finalImage.style.marginTop = "0px"
     finalImage.style.marginBottom = "0px"
-    
-    setTimeout(() => { domtoimage.toPng(finalImage, {style: {height:"1100px", width: "1100px"}, height: 1100, width: 1100})
-    .then(function (dataUrl) {
-      domtoimage.toPng(finalImage, {style: {height:"1100px", width: "1100px"}, height: 1100, width: 1100}).then(function (dataUrl1){
-        //TODO -- make this a function from APP and pass down to this.
-        const img = new Image();
-        img.src = dataUrl1;
-        img.id = "finalImage"
-        img.classList.add("image--downloadable")
-        //finalImage.innerHTML = ""
-        finalImage.appendChild(img);
-        finalImage.style.transform = `scale(${imageScale})`
-        finalImage.style.marginTop = 
-        finalImage.style.marginBottom = `${-(550-(550*imageScale))/2}px`
-        finalImage.style.marginTop = `${-(550-(550*imageScale))/2}px`
-        finalImage.style.setProperty("webkit-transform", `scale(${imageScale})`)
-        finalContents.style.display = "none"
-        finalImage.classList.remove("render--transform")
-        endLoading()
-        
+
+    $(document).ready(() => {
+      
+        console.log(activeColor)
+        setTimeout(() => {
+          domtoimage.toPng(finalImage).then(function (dataUrl){
+          domtoimage.toPng(finalImage, {height: 1100, width: 1100}).then(function (dataUrl1){
+            const img = new Image();
+            img.src = dataUrl1;
+            img.id = "finalImage"
+            img.classList.add("image--downloadable")
+            finalImage.appendChild(img);
+            finalImage.style.transform = `scale(${imageScale})`
+            finalImage.style.marginBottom = `${-(550-(550*imageScale))/2}px`
+            finalImage.style.marginTop = `${-(550-(550*imageScale))/2}px`
+            finalImage.style.setProperty("webkit-transform", `scale(${imageScale})`)
+            finalContents.style.webkitTransform = ""
+            finalContents.style.display = "none"
+            finalImage.classList.remove("render--transform")
+            endLoading()
+            setTimeout(() => finalImage.scrollIntoView({behavior: "smooth", block: "center"}), 500)
+        })
       })
 
-    })}, 100)
+        }, 1000)
+
+    })
+
 
   }
 
@@ -150,6 +156,7 @@ function App() {
         window.location.hash = ""
         window.localStorage.setItem("token", tempToken)
         setToken(tempToken)
+        
       } else if(result === true){
         setToken(tempToken)
       } else {
@@ -160,12 +167,16 @@ function App() {
   }
 
   function getUsername(token){
+    if(formData.username){
+      setUsername(formData.username.toUpperCase())
+      return;
+    }
     axios.get('https://api.spotify.com/v1/me', {
       headers: {
           Authorization: `Bearer ${token}`
       }
     }).then((response) => {
-      setUsername(response.data.display_name.toUpperCase())
+      setUsername(response.data.display_name.toUpperCase().replace(/^\s*[\r\n]/gm,""))
     }).catch(() => {
 
     })
@@ -173,7 +184,6 @@ function App() {
 
   useEffect(() => {
     getToken()
-
     if(maxImageWidth/window.innerWidth > 0.9 && !imageScale){
       setImageScale((window.innerWidth*0.9)/550)
       console.log((window.innerWidth*0.9)/550)
@@ -186,6 +196,8 @@ function App() {
 
   //process response data
   useEffect(() => {
+
+    console.log(responseData)
     if(responseData.status == 400){
     }
     
@@ -237,6 +249,41 @@ function App() {
   function addStyleValues(firstVal, secondVal){
     return `${fontSizeToInt(firstVal)+fontSizeToInt(secondVal)}px`
   }
+  console.log(document.getElementsByClassName("tape--text")[0] && document.getElementsByClassName("tape--text")[0].getBoundingClientRect().x)
+
+  function setImageLoaded(id) {
+    console.log("I AM LOADED")
+  }
+
+  let formElements
+
+  if(!token){
+    formElements = <button className="form--full" onClick={() => window.location=`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=user-top-read%20user-read-private`}>login with spotify</button>
+  } else {
+    formElements = (
+      <>
+      <button className="form--full" onClick={logout}>logout</button>
+      <select id="color" name="color" className="form--left" style={{direction: "rtl"}} onChange={handleChange} value={formData.color}>
+      <option value="" disabled selected>color</option>
+        <option value="green">green</option>
+        <option value="red" >red</option>
+        <option value="blue" >blue</option>
+        <option value="white" >white</option>
+        <option value="black" >black</option>
+      </select>
+    <select name="timeframe" onChange={handleChange} value={formData.timeframe}>
+      <option value="" disabled selected>timeframe</option>
+      <option value="short_term">this month</option>
+      <option value="medium_term" >6 months</option>
+      <option value="long_term" >all time</option>
+    </select>
+
+    
+    <input onChange={handleChange} name="username" className="form--full" type="text" placeholder="custom name (optional)" value={formData.username}></input>
+    {(formData.color && formData.timeframe) && <button className="form--full" onClick={create}>create</button>}
+    </>
+    )
+  }
 
   return (
     <div className="main">
@@ -245,26 +292,9 @@ function App() {
   integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
   crossOrigin="anonymous"></script>
       <header className="App-header">
-        <h1>TAPEIFY</h1>
-        <div className="form">
-          {!token ?
-              <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=user-top-read%20user-read-private`}>Login
-                  to Spotify</a>
-              : <button onClick={logout}>Logout</button>}
-          <select name="color" onChange={handleChange} value={formData.color}>
-            <option value="green">Green</option>
-            <option value="red" >Red</option>
-            <option value="blue" >Blue</option>
-            <option value="white" >White</option>
-            <option value="black" >Black</option>
-          </select>
-          <select name="timeframe" onChange={handleChange} value={formData.timeframe}>
-            <option value="short_term">This Month</option>
-            <option value="medium_term" >6 Months</option>
-            <option value="long_term" >All Time</option>
-          </select>
-
-          <button onClick={create}>CREATE</button>
+        <h1>tapeify</h1>
+         <div className="form">
+          {formElements}
         </div>
       </header>
       <div id="image--container" style={{backgroundColor: backgroundColor, transform: `scale(${imageScale})`, marginTop: `${-(550-(550*imageScale))/2}px`, marginBottom: `${-(550-(550*imageScale))/2}px`}} className="image--container">
@@ -284,16 +314,17 @@ function App() {
           />
           <img className="cassette" src={require(`./images/cassette_${activeColor}.png`)} />
           <div className="tape">
-            <img style={{left: addStyleValues(`195px`, usernameOffset)}} id="userImage" className="tape--image" src={require("./images/tape.png")} />
+            <img style={{left: addStyleValues(`195px`, usernameOffset)}} id="userImage" className="tape--image" onLoad={setImageLoaded} src={require("./images/tape.png")} />
             <img style={{left: addStyleValues(`310px`, usernameOffset)}} id="dateImage" className="tape--date_image" src={require("./images/tape_cropped.png")} />
-            <div id="username" style={{color: inkColor, fontSize: "28px", left: addStyleValues(`224px`, usernameOffset)}} className="tape--text">{username}</div>
-            <div id="date" style={{color: inkColor, left: addStyleValues(`389px`, usernameOffset)}} className="tape--date">{dateString}</div>
+            <div id="username" style={{color: inkColor, fontSize: "22px", left: addStyleValues(`224px`, usernameOffset)}} className="tape--text">{username}</div>
+            <div id="date" style={{color: inkColor, left: addStyleValues(`327px`, usernameOffset)}} className="tape--date">{dateString}</div>
           </div>
         </div>
       </div>
       <Metadata
         metadata={metadata}
         spotify={spotify}
+        username={username}
       />
       <div style={{display: "none"}} id="loading">
         <img className="rotating" id="loading-image" src={require(`./images/record.png`)} alt="Loading..." />
