@@ -1,283 +1,342 @@
-import { useState, useEffect } from 'react'
-import Card from "./components/Card"
-import axios from "axios"
-import colorData from "./colorData"
-import $ from 'jquery'; 
-import domtoimage from 'dom-to-image'
-import Metadata from "./components/Metadata"
+import { useState, useEffect } from "react";
+import Card from "./components/Card";
+import axios from "axios";
+import colorData from "./colorData";
+import $ from "jquery";
+import domtoimage from "dom-to-image";
+import Metadata from "./components/Metadata";
 
 function App() {
-  const [metadata, setMetadata] = useState([])
-  const [dateString, setDateString] = useState("")
-  const [imageScale, setImageScale] = useState() 
-  const [isDone, setIsDone] = useState(false)
-  const loading = document.getElementById("loading")
-  const CLIENT_ID = "063f0ced1a1040038bf1d4f33e5808e4"
-  const REDIRECT_URI = window.location.href.replace(/\/\$|\/#$/, "")
-  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
-  const RESPONSE_TYPE = "token"
-  const [timeframe, setTimeframe] = useState("6 MONTHS")
-  const [spotify, setSpotify] = useState()
-  const [username, setUsername] = useState("")
-  const [token, setToken] = useState("")
-  const [responseData, setResponseData] = useState({})
-  const [songData, setSongData] = useState([])
-  const [marginValue, setMarginValue] = useState(0)
+  const [metadata, setMetadata] = useState([]);
+  const [dateString, setDateString] = useState("");
+  const [imageScale, setImageScale] = useState();
+  const [isDone, setIsDone] = useState(false);
+  const loading = document.getElementById("loading");
+  const CLIENT_ID = "063f0ced1a1040038bf1d4f33e5808e4";
+  const REDIRECT_URI = window.location.href.replace(/\/\$|\/#$/, "");
+  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const RESPONSE_TYPE = "token";
+  const [timeframe, setTimeframe] = useState("6 MONTHS");
+  const [spotify, setSpotify] = useState();
+  const [username, setUsername] = useState("");
+  const [token, setToken] = useState("");
+  const [responseData, setResponseData] = useState({});
+  const [songData, setSongData] = useState([]);
+  const [marginValue, setMarginValue] = useState(0);
   const [formData, setFormData] = useState({
-    color:"",
-    timeframe:""
-  })
-  const [activeColor, setActiveColor] = useState('white')
-  let inkColor = ""
-  let backgroundColor = ""
-  let usernameOffset
+    color: "",
+    timeframe: "",
+  });
+  const [activeColor, setActiveColor] = useState("white");
+  let inkColor = "";
+  let backgroundColor = "";
+  let usernameOffset;
   const maxImageWidth = 550;
-  setColorProperties()
+  setColorProperties();
 
-  function fontSizeToInt(fontSize){
-    return parseInt(fontSize.substring(0, fontSize.length - 2))
+  function fontSizeToInt(fontSize) {
+    return parseInt(fontSize.substring(0, fontSize.length - 2));
   }
 
-  function create(){
-    const finalImage = document.getElementById("finalImage")
-    finalImage != null && finalImage.remove()
+  function create() {
+    const finalImage = document.getElementById("finalImage");
+    finalImage != null && finalImage.remove();
     loading.style.display = "flex";
-    loading.style.opacity = "1"
-    document.getElementById("image--contents").style.display = "block"
+    loading.style.opacity = "1";
+    document.getElementById("image--contents").style.display = "block";
     const date = new Date();
-    setDateString((date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear())
-    setTimeframe(formData.timeframe)
-    setSongData([])
-    setMarginValue(0)
-    setIsDone(false)
-    getUsername(token)
-    getUserData(token)
+    setDateString(
+      date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear()
+    );
+    setTimeframe(formData.timeframe);
+    setSongData([]);
+    setMarginValue(0);
+    setIsDone(false);
+    getUsername(token);
+    getUserData(token);
   }
 
-  function done(){
-    const finalImage=document.getElementById("image--container")
-    const finalContents = document.getElementById("image--contents")
-    finalImage.classList.add("render--transform")
-    finalImage.style.webkitTransform = "scale(2)"
-    finalContents.style.webkitTransform = "translate(137.5px, 137.5px)"
-    finalImage.style.marginTop = "0px"
-    finalImage.style.marginBottom = "0px"
+  function done() {
+    const finalImage = document.getElementById("image--container");
+    const finalContents = document.getElementById("image--contents");
+    finalImage.style.transform = "scale(1)";
+    finalContents.style.webkitTransform = "scale(2)";
 
     $(document).ready(() => {
-        setTimeout(() => {
-          domtoimage.toPng(finalImage).then(function (dataUrl){
-          domtoimage.toPng(finalImage, {height: 1100, width: 1100}).then(function (dataUrl1){
-            const img = new Image();
-            img.src = dataUrl1;
-            img.id = "finalImage"
-            img.classList.add("image--downloadable")
-            finalImage.appendChild(img);
-            finalImage.style.transform = `scale(${imageScale})`
-            finalImage.style.marginBottom = `${-(550-(550*imageScale))/2}px`
-            finalImage.style.marginTop = `${-(550-(550*imageScale))/2}px`
-            finalImage.style.setProperty("webkit-transform", `scale(${imageScale})`)
-            finalContents.style.webkitTransform = ""
-            finalContents.style.display = "none"
-            finalImage.classList.remove("render--transform")
-            endLoading()
-            setTimeout(() => finalImage.scrollIntoView({behavior: "smooth", block: "center"}), 500)
-        })
-      })
-
-        }, 1000)
-
-    })
-
-
+      setTimeout(() => {
+        domtoimage.toPng(finalImage).then(function (dataUrl) {
+          domtoimage
+            .toPng(finalImage, {
+              height: 1100,
+              width: 1100,
+              style: { paddingTop: "275px" },
+            })
+            .then(function (dataUrl1) {
+              const img = new Image();
+              img.src = dataUrl1;
+              img.id = "finalImage";
+              img.classList.add("image--downloadable");
+              finalImage.appendChild(img);
+              finalImage.style.transform = `scale(${imageScale})`;
+              finalContents.style.webkitTransform = "";
+              finalContents.style.display = "none";
+              endLoading();
+              setTimeout(
+                () =>
+                  finalImage.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  }),
+                500
+              );
+            });
+        });
+      }, 1000);
+    });
   }
 
-  function setColorProperties(){
-    colorData.map(color => {
-      if(color.name===activeColor){
-        inkColor = color.inkColor
-        backgroundColor = color.backgroundColor
-        usernameOffset = color.userOffset
+  function setColorProperties() {
+    colorData.map((color) => {
+      if (color.name === activeColor) {
+        inkColor = color.inkColor;
+        backgroundColor = color.backgroundColor;
+        usernameOffset = color.userOffset;
       }
-    })
+    });
   }
 
-  function startLoading(){
+  function startLoading() {
     loading.style.display = "flex";
-    loading.style.opacity = "1"
+    loading.style.opacity = "1";
   }
 
-  function endLoading(){
-    setTimeout(() => loading.style.opacity = 0, 500)
-    setTimeout(() => loading.style.display = "none", 1000)
+  function endLoading() {
+    setTimeout(() => (loading.style.opacity = 0), 500);
+    setTimeout(() => (loading.style.display = "none"), 1000);
   }
 
   //set color props when active color is changed
   useEffect(() => {
-    setColorProperties()
-  }, [activeColor])
+    setColorProperties();
+  }, [activeColor]);
 
-  function getUserData(token){
-    axios.get(`https://api.spotify.com/v1/me/top/tracks?time_range=${formData.timeframe}&limit=5&offset=0`, {
-      headers: {
-          Authorization: `Bearer ${token}`
+  function getUserData(token) {
+    axios
+      .get(
+        `https://api.spotify.com/v1/me/top/tracks?time_range=${formData.timeframe}&limit=5&offset=0`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        setResponseData(response.data);
+      });
+  }
+
+  function getToken(refresh) {
+    function checkTokenValidity(token) {
+      return axios
+        .get("https://api.spotify.com/v1/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+    }
+
+    const hash = window.location.hash;
+    let tempToken = window.localStorage.getItem("token");
+
+    checkTokenValidity(tempToken).then((result) => {
+      if (result === false && hash !== "") {
+        tempToken = hash
+          .substring(1)
+          .split("&")
+          .find((elem) => elem.startsWith("access_token"))
+          .split("=")[1];
+        window.location.hash = "";
+        window.localStorage.setItem("token", tempToken);
+        setToken(tempToken);
+      } else if (result === true) {
+        setToken(tempToken);
+      } else {
+        setToken("");
+        window.localStorage.removeItem("token");
       }
-    }).then((response) => {
-      setResponseData(response.data);
     });
   }
 
-  function getToken(refresh){
-    function checkTokenValidity(token) {
-      return axios.get('https://api.spotify.com/v1/me', {
-          headers: {
-              Authorization: `Bearer ${token}`
-          }
-        }).then((response) => {return true
-        }).catch(() => {
-          return false
-        })
-    }
-
-    const hash = window.location.hash
-    let tempToken = window.localStorage.getItem("token")
-    checkTokenValidity(tempToken).then(result => {
-      if(result === false && hash != ""){
-        tempToken = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
-        window.location.hash = ""
-        window.localStorage.setItem("token", tempToken)
-        setToken(tempToken)
-        
-      } else if(result === true){
-        setToken(tempToken)
-      } else {
-        setToken("")
-        window.localStorage.removeItem("token")
-      }
-    })
-  }
-
-  function getUsername(token){
-    if(formData.username){
-      setUsername(formData.username.toUpperCase())
+  function getUsername(token) {
+    if (formData.username) {
+      setUsername(formData.username.toUpperCase());
       return;
     }
-    axios.get('https://api.spotify.com/v1/me', {
-      headers: {
-          Authorization: `Bearer ${token}`
-      }
-    }).then((response) => {
-      setUsername(response.data.display_name.toUpperCase().replace(/^\s*[\r\n]/gm,""))
-    }).catch(() => {
-
-    })
+    axios
+      .get("https://api.spotify.com/v1/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUsername(
+          response.data.display_name.toUpperCase().replace(/^\s*[\r\n]/gm, "")
+        );
+      })
+      .catch(() => {});
   }
 
   useEffect(() => {
-    getToken()
-    if(maxImageWidth/window.innerWidth > 0.9 && !imageScale){
-      setImageScale((window.innerWidth*0.9)/550)
+    getToken();
+    if (maxImageWidth / window.innerWidth > 0.9 && !imageScale) {
+      setImageScale((window.innerWidth * 0.9) / 550);
     } else if (!imageScale) {
-      setImageScale(1)
+      setImageScale(1);
     }
-    document.getElementById("image--container").style.display = "block"
-
-  }, [])
+    document.getElementById("image--container").style.display = "flex";
+  }, []);
 
   //process response data
   useEffect(() => {
-      
-    if(responseData.items != undefined){
-      setSpotify(true)
-      const apiSongTitles = responseData.items.map(song => {
-        let songName = song.name
+    if (responseData.items !== undefined) {
+      setSpotify(true);
+      const apiSongTitles = responseData.items.map((song) => {
+        let songName = song.name;
         //TRUNCATE SONG DETAILS
-        songName = songName.replace(/ - .*/g,"")
-        const artist = song.artists[0].name
-        return `${songName.toLowerCase()} - ${artist.toLowerCase()}`
-        })
-      setSongData(apiSongTitles)
+        songName = songName.replace(/ - .*/g, "");
+        const artist = song.artists[0].name;
+        return `${songName.toLowerCase()} - ${artist.toLowerCase()}`;
+      });
+      setSongData(apiSongTitles);
 
-      const metadataTitles = responseData.items.map(song => {
-        let songName = song.name
-        const artists = song.artists.map(artist => artist.name)
-        return ({
+      const metadataTitles = responseData.items.map((song) => {
+        let songName = song.name;
+        const artists = song.artists.map((artist) => artist.name);
+        return {
           name: songName,
           artists: artists,
-          link: song.external_urls.spotify
-        })
-      })
-      setMetadata(metadataTitles)
-      
+          link: song.external_urls.spotify,
+        };
+      });
+      setMetadata(metadataTitles);
     }
-
-
-  }, [responseData])
+  }, [responseData]);
 
   const logout = () => {
-    setToken("")
-    window.localStorage.removeItem("token")
-    startLoading()
-    document.getElementById("image--contents").style.display = "block"
-    const finalImage = document.getElementById("finalImage")
-    finalImage != null && finalImage.remove()
-    endLoading()
-  }
+    setToken("");
+    window.localStorage.removeItem("token");
+    startLoading();
+    document.getElementById("image--contents").style.display = "block";
+    const finalImage = document.getElementById("finalImage");
+    finalImage != null && finalImage.remove();
+    endLoading();
+  };
 
-  function handleChange(event){
-    setFormData(prevFormData => ({
+  function handleChange(event) {
+    setFormData((prevFormData) => ({
       ...prevFormData,
-      [event.target.name]: event.target.value
-    }))
-    event.target.name=="color" && setActiveColor(event.target.value)
+      [event.target.name]: event.target.value,
+    }));
+    event.target.name === "color" && setActiveColor(event.target.value);
   }
 
-  function addStyleValues(firstVal, secondVal){
-    return `${fontSizeToInt(firstVal)+fontSizeToInt(secondVal)}px`
+  function addStyleValues(firstVal, secondVal) {
+    return `${fontSizeToInt(firstVal) + fontSizeToInt(secondVal)}px`;
   }
 
-  let formElements
+  let formElements;
 
-  if(!token){
-    formElements = <button className="form--full" onClick={() => window.location=`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=user-top-read%20user-read-private`}>login with spotify</button>
+  if (!token) {
+    formElements = (
+      <button
+        className="form--full"
+        onClick={() =>
+          (window.location = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=user-top-read%20user-read-private`)
+        }
+      >
+        login with spotify
+      </button>
+    );
   } else {
     formElements = (
       <>
-      <button className="form--full" onClick={logout}>logout</button>
-      <select id="color" name="color" className="form--left" style={{direction: "rtl"}} onChange={handleChange} value={formData.color}>
-      <option value="" disabled selected>color</option>
-        <option value="green">green</option>
-        <option value="red" >red</option>
-        <option value="blue" >blue</option>
-        <option value="white" >white</option>
-        <option value="black" >black</option>
-      </select>
-    <select name="timeframe" onChange={handleChange} value={formData.timeframe}>
-      <option value="" disabled selected>timeframe</option>
-      <option value="short_term">this month</option>
-      <option value="medium_term" >6 months</option>
-      <option value="long_term" >all time</option>
-    </select>
+        <button className="form--full" onClick={logout}>
+          logout
+        </button>
+        <select
+          id="color"
+          name="color"
+          className="form--left"
+          style={{ direction: "rtl" }}
+          onChange={handleChange}
+          value={formData.color}
+        >
+          <option value="" disabled selected>
+            color
+          </option>
+          <option value="green">green</option>
+          <option value="red">red</option>
+          <option value="blue">blue</option>
+          <option value="white">white</option>
+          <option value="black">black</option>
+        </select>
+        <select
+          name="timeframe"
+          onChange={handleChange}
+          value={formData.timeframe}
+        >
+          <option value="" disabled selected>
+            timeframe
+          </option>
+          <option value="short_term">this month</option>
+          <option value="medium_term">6 months</option>
+          <option value="long_term">all time</option>
+        </select>
 
-    
-    <input onChange={handleChange} name="username" className="form--full" type="text" placeholder="custom name (optional)" value={formData.username}></input>
-    {(formData.color && formData.timeframe) && <button className="form--full" onClick={create}>create</button>}
-    </>
-    )
+        <input
+          onChange={handleChange}
+          name="username"
+          className="form--full"
+          type="text"
+          placeholder="custom name (optional)"
+          value={formData.username}
+        ></input>
+        {formData.color && formData.timeframe && (
+          <button className="form--full" onClick={create}>
+            create
+          </button>
+        )}
+      </>
+    );
   }
 
   return (
     <div className="main">
       <script
-  src="https://code.jquery.com/jquery-3.7.0.js"
-  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
-  crossOrigin="anonymous"></script>
+        src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossOrigin="anonymous"
+      ></script>
       <header className="App-header">
         <h1>tapeify</h1>
-         <div className="form">
-          {formElements}
-        </div>
+        <div className="form">{formElements}</div>
       </header>
-      <div id="image--container" style={{backgroundColor: backgroundColor, transform: `scale(${imageScale})`, marginTop: `${-(550-(550*imageScale))/2}px`, marginBottom: `${-(550-(550*imageScale))/2}px`}} className="image--container">
+      <div
+        id="image--container"
+        style={{
+          backgroundColor: backgroundColor,
+          transform: `scale(${imageScale})`,
+          marginTop: `${-(550 - 550 * imageScale) / 2}px`,
+          marginBottom: `${-(550 - 550 * imageScale) / 2}px`,
+        }}
+        className="image--container"
+      >
         <div id="image--contents" className="image--container_contents">
           <Card
             songData={songData}
@@ -292,26 +351,58 @@ function App() {
             marginValue={marginValue}
             setMarginValue={setMarginValue}
           />
-          <img className="cassette" src={require(`./images/cassette_${activeColor}.png`)} />
+          <img
+            className="cassette"
+            src={require(`./images/cassette_${activeColor}.png`)}
+          />
           <div className="tape">
-            <img style={{left: addStyleValues(`195px`, usernameOffset)}} id="userImage" className="tape--image" src={require("./images/tape.png")} />
-            <img style={{left: addStyleValues(`310px`, usernameOffset)}} id="dateImage" className="tape--date_image" src={require("./images/tape_cropped.png")} />
-            <div id="username" style={{color: inkColor, fontSize: "22px", left: addStyleValues(`224px`, usernameOffset)}} className="tape--text">{username}</div>
-            <div id="date" style={{color: inkColor, left: addStyleValues(`327px`, usernameOffset)}} className="tape--date">{dateString}</div>
+            <img
+              style={{ left: addStyleValues(`195px`, usernameOffset) }}
+              id="userImage"
+              className="tape--image"
+              src={require("./images/tape.png")}
+            />
+            <img
+              style={{ left: addStyleValues(`310px`, usernameOffset) }}
+              id="dateImage"
+              className="tape--date_image"
+              src={require("./images/tape_cropped.png")}
+            />
+            <div
+              id="username"
+              style={{
+                color: inkColor,
+                fontSize: "22px",
+                left: addStyleValues(`224px`, usernameOffset),
+              }}
+              className="tape--text"
+            >
+              {username}
+            </div>
+            <div
+              id="date"
+              style={{
+                color: inkColor,
+                left: addStyleValues(`327px`, usernameOffset),
+              }}
+              className="tape--date"
+            >
+              {dateString}
+            </div>
           </div>
         </div>
       </div>
-      <Metadata
-        metadata={metadata}
-        spotify={spotify}
-        username={username}
-      />
-      <div style={{display: "none"}} id="loading">
-        <img className="rotating" id="loading-image" src={require(`./images/record.png`)} alt="Loading..." />
+      <Metadata metadata={metadata} spotify={spotify} username={username} />
+      <div style={{ display: "none" }} id="loading">
+        <img
+          className="rotating"
+          id="loading-image"
+          src={require(`./images/record.png`)}
+          alt="Loading..."
+        />
       </div>
     </div>
-
-  )
+  );
 }
 
-export default App
+export default App;
