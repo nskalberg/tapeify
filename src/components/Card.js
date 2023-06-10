@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import timeframeData from "../timeframeData"
+import timeframeData from "../data/timeframeData"
 
 export default function Card(props){
     

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from "./components/Card";
 import axios from "axios";
-import colorData from "./colorData";
+import colorData from "./data/colorData";
 import $ from "jquery";
 import domtoimage from "dom-to-image";
 import Metadata from "./components/Metadata";
