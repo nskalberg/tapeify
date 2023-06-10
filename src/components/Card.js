@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react"
 import timeframeData from "../timeframeData"
-import domtoimage from 'dom-to-image';
-import $ from "jquery"
 
 export default function Card(props){
     
     const [cardFontSize, setCardFontSize] = useState('28px')
-    const {songData, inkColor, timeframe, done, fontSizeToInt, setSongData, isDone, setIsDone, marginValue, setMarginValue} = props
-    let topOffset, leftOffset, timeframeText, tempMargin
+    const {songData, inkColor, timeframe, done, fontSizeToInt, isDone, setIsDone, marginValue, setMarginValue} = props
+    let topOffset, leftOffset, timeframeText
 
     timeframeData.map(time => {
-        if(time.timeframe==timeframe){
+        if(time.timeframe===timeframe){
             topOffset = time.topOffset
             leftOffset = time.leftOffset
             timeframeText = time.cardText
@@ -33,7 +31,6 @@ export default function Card(props){
     }
 
     useEffect(() => {
-        console.log(calculateMargin(), marginValue)
         if(songData.length !== 0 && isDone === false && marginValue === 0){
             if(calculateMargin() < 8){
                 setCardFontSize(prevFontSize => `${fontSizeToInt(prevFontSize)-1}px`)

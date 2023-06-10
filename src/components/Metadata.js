@@ -3,7 +3,6 @@ import react from "react"
 export default function Metadata(props){
     const {metadata, spotify, username} = props
 
-
     // const songs = [
     //     {
     //         name: "song",
@@ -21,7 +20,6 @@ export default function Metadata(props){
     </div>
     )
     )
-
 
     return (
     <div id="metadata">

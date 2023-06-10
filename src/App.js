@@ -185,11 +185,7 @@ function App() {
 
   //process response data
   useEffect(() => {
-
-    console.log(responseData)
-    if(responseData.status == 400){
-    }
-    
+      
     if(responseData.items != undefined){
       setSpotify(true)
       const apiSongTitles = responseData.items.map(song => {
