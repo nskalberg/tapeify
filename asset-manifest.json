@@ -1,11 +1,11 @@
 {
   "files": {
     "main.css": "/tapeify/static/css/main.d8ce445f.css",
-    "main.js": "/tapeify/static/js/main.7619af76.js",
+    "main.js": "/tapeify/static/js/main.48927bb1.js",
     "static/media/cassette_green.png": "/tapeify/static/media/cassette_green.8861ab839d97756d8d43.png",
     "static/media/cassette_red.png": "/tapeify/static/media/cassette_red.90248502f0770daaa317.png",
     "static/media/cassette_white.png": "/tapeify/static/media/cassette_white.da671b60aeae9db49c8c.png",
-    "static/media/cassette_blue.png": "/tapeify/static/media/cassette_blue.25330f4d2558d0b1da52.png",
+    "static/media/cassette_blue.png": "/tapeify/static/media/cassette_blue.79fa21d2bc28ff26d230.png",
     "static/media/card.png": "/tapeify/static/media/card.e024b1874a9405266acf.png",
     "static/media/cassette_black.png": "/tapeify/static/media/cassette_black.22d9ec84c206fab6cd29.png",
     "static/media/PhontPhreaks Handwriting.ttf": "/tapeify/static/media/PhontPhreaks Handwriting.c42e2081e9c5a852bb19.ttf",
@@ -15,10 +15,10 @@
     "static/media/record.png": "/tapeify/static/media/record.7c4b1ed500d95f97395f.png",
     "index.html": "/tapeify/index.html",
     "main.d8ce445f.css.map": "/tapeify/static/css/main.d8ce445f.css.map",
-    "main.7619af76.js.map": "/tapeify/static/js/main.7619af76.js.map"
+    "main.48927bb1.js.map": "/tapeify/static/js/main.48927bb1.js.map"
   },
   "entrypoints": [
     "static/css/main.d8ce445f.css",
-    "static/js/main.7619af76.js"
+    "static/js/main.48927bb1.js"
   ]
 }
