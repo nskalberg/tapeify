@@ -5,12 +5,8 @@ import colorData from "./colorData"
 import $ from 'jquery'; 
 import domtoimage from 'dom-to-image'
 import Metadata from "./components/Metadata"
-import html2canvas from 'html2canvas';
-
-
 
 function App() {
-  console.log(navigator.userAgent)
   const [metadata, setMetadata] = useState([])
   const [dateString, setDateString] = useState("")
   const [imageScale, setImageScale] = useState() 
@@ -18,7 +14,6 @@ function App() {
   const loading = document.getElementById("loading")
   const CLIENT_ID = "063f0ced1a1040038bf1d4f33e5808e4"
   const REDIRECT_URI = window.location.href.replace(/\/\$|\/#$/, "")
-  console.log(REDIRECT_URI)
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
   const RESPONSE_TYPE = "token"
   const [timeframe, setTimeframe] = useState("6 MONTHS")
@@ -36,7 +31,6 @@ function App() {
   let inkColor = ""
   let backgroundColor = ""
   let usernameOffset
-  let imagesLoaded = []
   const maxImageWidth = 550;
   setColorProperties()
 
@@ -47,7 +41,6 @@ function App() {
   function create(){
     const finalImage = document.getElementById("finalImage")
     finalImage != null && finalImage.remove()
-    console.log(token)
     loading.style.display = "flex";
     loading.style.opacity = "1"
     document.getElementById("image--contents").style.display = "block"
@@ -55,7 +48,6 @@ function App() {
     setDateString((date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear())
     setTimeframe(formData.timeframe)
     setSongData([])
-    imagesLoaded = []
     setMarginValue(0)
     setIsDone(false)
     getUsername(token)
@@ -72,8 +64,6 @@ function App() {
     finalImage.style.marginBottom = "0px"
 
     $(document).ready(() => {
-      
-        console.log(activeColor)
         setTimeout(() => {
           domtoimage.toPng(finalImage).then(function (dataUrl){
           domtoimage.toPng(finalImage, {height: 1100, width: 1100}).then(function (dataUrl1){
@@ -186,7 +176,6 @@ function App() {
     getToken()
     if(maxImageWidth/window.innerWidth > 0.9 && !imageScale){
       setImageScale((window.innerWidth*0.9)/550)
-      console.log((window.innerWidth*0.9)/550)
     } else if (!imageScale) {
       setImageScale(1)
     }
@@ -249,11 +238,6 @@ function App() {
   function addStyleValues(firstVal, secondVal){
     return `${fontSizeToInt(firstVal)+fontSizeToInt(secondVal)}px`
   }
-  console.log(document.getElementsByClassName("tape--text")[0] && document.getElementsByClassName("tape--text")[0].getBoundingClientRect().x)
-
-  function setImageLoaded(id) {
-    console.log("I AM LOADED")
-  }
 
   let formElements
 
@@ -314,7 +298,7 @@ function App() {
           />
           <img className="cassette" src={require(`./images/cassette_${activeColor}.png`)} />
           <div className="tape">
-            <img style={{left: addStyleValues(`195px`, usernameOffset)}} id="userImage" className="tape--image" onLoad={setImageLoaded} src={require("./images/tape.png")} />
+            <img style={{left: addStyleValues(`195px`, usernameOffset)}} id="userImage" className="tape--image" src={require("./images/tape.png")} />
             <img style={{left: addStyleValues(`310px`, usernameOffset)}} id="dateImage" className="tape--date_image" src={require("./images/tape_cropped.png")} />
             <div id="username" style={{color: inkColor, fontSize: "22px", left: addStyleValues(`224px`, usernameOffset)}} className="tape--text">{username}</div>
             <div id="date" style={{color: inkColor, left: addStyleValues(`327px`, usernameOffset)}} className="tape--date">{dateString}</div>
