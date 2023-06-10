@@ -31,14 +31,15 @@ export default function Card(props){
     }
 
     useEffect(() => {
-        if(songData.length !== 0 && isDone === false && marginValue === 0){
-            if(calculateMargin() < 8){
+        const currentMargin = calculateMargin()
+        if(songData.length !== 0 && !isDone && marginValue === 0){
+            if(currentMargin < 8){
                 setCardFontSize(prevFontSize => `${fontSizeToInt(prevFontSize)-1}px`)
             } else
-            if(calculateMargin() > 13){
+            if(currentMargin > 13){
                 setCardFontSize(prevFontSize => `${fontSizeToInt(prevFontSize)+1}px`)
             } else {
-                setMarginValue(calculateMargin())
+                setMarginValue(currentMargin)
             }
         } else
         if(marginValue !== 0 && !isDone){

@@ -14,10 +14,10 @@ export default function Metadata(props){
     // ]
 
     const metadataElements = metadata.map(song => (
-    <div className="metadata--row">
-        <a className="metadata--song" href={song.link}>{song.name}</a>
-        <div className="metadata--artist">{song.artists.toString()}</div>
-    </div>
+        <div className="metadata--row">
+            <a className="metadata--song" href={song.link}>{song.name}</a>
+            <div className="metadata--artist">{song.artists.toString()}</div>
+        </div>
     )
     )
 

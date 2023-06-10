@@ -357,13 +357,13 @@ function App() {
           />
           <div className="tape">
             <img
-              style={{ left: addStyleValues(`195px`, usernameOffset) }}
+              style={{ left: "202px" }}
               id="userImage"
               className="tape--image"
               src={require("./images/tape.png")}
             />
             <img
-              style={{ left: addStyleValues(`310px`, usernameOffset) }}
+              style={{ left: "317px" }}
               id="dateImage"
               className="tape--date_image"
               src={require("./images/tape_cropped.png")}
@@ -373,7 +373,7 @@ function App() {
               style={{
                 color: inkColor,
                 fontSize: "22px",
-                left: addStyleValues(`224px`, usernameOffset),
+                left: "231px",
               }}
               className="tape--text"
             >
@@ -383,7 +383,7 @@ function App() {
               id="date"
               style={{
                 color: inkColor,
-                left: addStyleValues(`327px`, usernameOffset),
+                left: "334px",
               }}
               className="tape--date"
             >
