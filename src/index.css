@@ -9,6 +9,7 @@
   width: 90%;
   max-width: 550px;
   justify-content:right;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 form {
@@ -84,7 +85,7 @@ form {
   position: absolute;
   left: 334px;
   top: 266px;
-  height: 50px;
+  height: 27px;
   width: 200px;
   transform: rotate(-88deg);
   font-size: 18px;
@@ -117,8 +118,9 @@ form {
   font-family: 'myFirstFont';
   color: #00395d;
   position: absolute;
-  top: 234px;
-  height: 75px;
+  top: 250px;
+  left: 231px;
+  height: 42px;
   width: 200px;
   transform: rotate(-88deg);
   text-align: center;
@@ -254,7 +256,7 @@ h1 {
 #metadata {
   display:flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   justify-content: center;
   padding-bottom: 40px;
 }
@@ -346,5 +348,15 @@ button{
 .form--full {
   width: 100%;
   max-width: 100%;
+}
+
+#metadata--background {
+  position: absolute;
+  height: 75vw;
+  transform: rotate(90deg);
+  z-index: -1;
+  max-height: 475px;
+  opacity: 0.2;
+  margin-top: 60px;
 }
 

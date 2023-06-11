@@ -316,6 +316,12 @@ function App() {
     );
   }
 
+  const usernameDebug = document.getElementById("username")
+  let debugValue = ""
+  if(usernameDebug){
+    debugValue = usernameDebug.getBoundingClientRect().x-document.getElementById("image--container").getBoundingClientRect().x
+  }
+
   return (
     <div className="main">
       <script
@@ -325,6 +331,8 @@ function App() {
       ></script>
       <header className="App-header">
         <h1>tapeify</h1>
+        <p>{document.getElementById("username") && document.getElementById("username").style.left}</p>
+        <p>{debugValue}</p>
         <div className="form">{formElements}</div>
       </header>
       <div
@@ -373,7 +381,6 @@ function App() {
               style={{
                 color: inkColor,
                 fontSize: "22px",
-                left: "231px",
               }}
               className="tape--text"
             >
