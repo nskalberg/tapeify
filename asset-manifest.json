@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/tapeify/static/css/main.881c1dcf.css",
-    "main.js": "/tapeify/static/js/main.ddb26a76.js",
+    "main.js": "/tapeify/static/js/main.fdbbed5e.js",
     "static/media/cassette_green.png": "/tapeify/static/media/cassette_green.8861ab839d97756d8d43.png",
     "static/media/cassette_red.png": "/tapeify/static/media/cassette_red.90248502f0770daaa317.png",
     "static/media/cassette_white.png": "/tapeify/static/media/cassette_white.da671b60aeae9db49c8c.png",
@@ -15,10 +15,10 @@
     "static/media/record.png": "/tapeify/static/media/record.7c4b1ed500d95f97395f.png",
     "index.html": "/tapeify/index.html",
     "main.881c1dcf.css.map": "/tapeify/static/css/main.881c1dcf.css.map",
-    "main.ddb26a76.js.map": "/tapeify/static/js/main.ddb26a76.js.map"
+    "main.fdbbed5e.js.map": "/tapeify/static/js/main.fdbbed5e.js.map"
   },
   "entrypoints": [
     "static/css/main.881c1dcf.css",
-    "static/js/main.ddb26a76.js"
+    "static/js/main.fdbbed5e.js"
   ]
 }
