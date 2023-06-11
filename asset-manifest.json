@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/tapeify/static/css/main.d8ce445f.css",
-    "main.js": "/tapeify/static/js/main.48927bb1.js",
+    "main.css": "/tapeify/static/css/main.881c1dcf.css",
+    "main.js": "/tapeify/static/js/main.53b76681.js",
     "static/media/cassette_green.png": "/tapeify/static/media/cassette_green.8861ab839d97756d8d43.png",
     "static/media/cassette_red.png": "/tapeify/static/media/cassette_red.90248502f0770daaa317.png",
     "static/media/cassette_white.png": "/tapeify/static/media/cassette_white.da671b60aeae9db49c8c.png",
@@ -14,11 +14,11 @@
     "static/media/Spotify_Logo_RGB_Black.png": "/tapeify/static/media/Spotify_Logo_RGB_Black.0d1e5545dee9f6dc1079.png",
     "static/media/record.png": "/tapeify/static/media/record.7c4b1ed500d95f97395f.png",
     "index.html": "/tapeify/index.html",
-    "main.d8ce445f.css.map": "/tapeify/static/css/main.d8ce445f.css.map",
-    "main.48927bb1.js.map": "/tapeify/static/js/main.48927bb1.js.map"
+    "main.881c1dcf.css.map": "/tapeify/static/css/main.881c1dcf.css.map",
+    "main.53b76681.js.map": "/tapeify/static/js/main.53b76681.js.map"
   },
   "entrypoints": [
-    "static/css/main.d8ce445f.css",
-    "static/js/main.48927bb1.js"
+    "static/css/main.881c1dcf.css",
+    "static/js/main.53b76681.js"
   ]
 }
