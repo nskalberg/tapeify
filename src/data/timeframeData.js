@@ -1,4 +1,4 @@
-export default [
+const timeframeData =  [
     {
         timeframe: "short_term",
         cardText: "THIS MONTH",
@@ -18,3 +18,5 @@ export default [
         topOffset: "285px"
     }
 ]
+
+export default timeframeData

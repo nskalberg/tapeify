@@ -30,7 +30,6 @@ function App() {
   const [activeColor, setActiveColor] = useState("white");
   let inkColor = "";
   let backgroundColor = "";
-  let usernameOffset;
   const maxImageWidth = 550;
   setColorProperties();
 
@@ -100,7 +99,6 @@ function App() {
       if (color.name === activeColor) {
         inkColor = color.inkColor;
         backgroundColor = color.backgroundColor;
-        usernameOffset = color.userOffset;
       }
     });
   }
@@ -246,10 +244,6 @@ function App() {
     event.target.name === "color" && setActiveColor(event.target.value);
   }
 
-  function addStyleValues(firstVal, secondVal) {
-    return `${fontSizeToInt(firstVal) + fontSizeToInt(secondVal)}px`;
-  }
-
   let formElements;
 
   if (!token) {
@@ -316,12 +310,6 @@ function App() {
     );
   }
 
-  const usernameDebug = document.getElementById("username")
-  let debugValue = ""
-  if(usernameDebug){
-    debugValue = usernameDebug.getBoundingClientRect().x-document.getElementById("image--container").getBoundingClientRect().x
-  }
-
   return (
     <div className="main">
       <script
@@ -331,8 +319,6 @@ function App() {
       ></script>
       <header className="App-header">
         <h1>tapeify</h1>
-        <p>{document.getElementById("username") && document.getElementById("username").style.left}</p>
-        <p>{debugValue}</p>
         <div className="form">{formElements}</div>
       </header>
       <div
