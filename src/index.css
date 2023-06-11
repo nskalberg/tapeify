@@ -1,0 +1,362 @@
+@font-face {
+  font-family: 'myFirstFont';
+  src: url("./fonts/PhontPhreaks Handwriting.ttf");
+}
+
+.main {
+  display:flex;
+  flex-direction:column;
+  width: 90%;
+  max-width: 550px;
+  justify-content:right;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+form {
+  display:flex;
+  justify-content:right;
+  flex-direction:column;
+  flex-wrap: wrap;
+}
+
+.form--input {
+  width: 400px;
+  margin-left: auto;
+  height: 30px;
+  margin-bottom: 20px
+}
+
+.card {
+  position: absolute;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 400px;
+  width: 240px;
+  top: 75px;
+  left: 35px;
+  display: flex;
+  background-image: url("./images/card.png");
+  flex-direction: column;
+  transform: rotate(-2deg);
+  box-sizing: border-box;
+  /* animation: 4s ease-in-out 0s 1 spinCassette; */
+}
+
+#spotify-logo {
+  position: absolute;
+  height: 30px;
+  top: 510px;
+  left: 225px;
+}
+
+.card--image {
+  height: 100%;
+}
+
+.cassette {
+  position: absolute;
+  height: 390px;
+  transform: rotate(2deg);
+  top: 80px;
+  left: 270px;
+  filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.5));
+}
+
+.tape--image {
+  position: absolute;
+  left: 195px;
+  top: 245px;
+  height: 55px;
+  transform: rotate(92deg);
+}
+
+.tape--date_image {
+  position: absolute;
+  left: 310px;
+  top: 267px;
+  height: 28px;
+  transform: rotate(92deg);
+}
+
+.tape--date {
+  display: flex;
+  font-family: 'myFirstFont';
+  color: #00395d;
+  position: absolute;
+  left: 334px;
+  top: 266px;
+  height: 27px;
+  width: 200px;
+  transform: rotate(-88deg);
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    filter: blur(10px);
+  }
+  100% {
+    filter: brightness(0px);
+  }
+}
+
+@keyframes spinCassette {
+  0% {
+    transform: rotate(360deg)
+  }
+  100% {
+    transform: rotate(-2deg)
+  }
+}
+
+.tape--text {
+  display: flex;
+  font-family: 'myFirstFont';
+  color: #00395d;
+  position: absolute;
+  top: 250px;
+  left: 231px;
+  height: 42px;
+  width: 200px;
+  transform: rotate(-88deg);
+  text-align: center;
+  align-items: center;
+  font-weight: bold;
+  justify-content: center;
+}
+
+.card--timeframe{
+  font-family: 'myFirstFont';
+  position: absolute;
+  transform: rotate(-90deg);
+  top: 275px;
+  left: -47px;
+  font-size: 36px;
+  color: #00395d;
+}
+
+.card--text {
+  font-family: 'myFirstFont';
+  font-size: 28px;
+  color: #00395d;
+  font-weight: normal;
+  line-height: 0.65;
+  width: 155px;
+  margin-left: 70px;
+  display: flex;
+  align-items: center;
+}
+
+#root {
+  display:flex;
+  align-items:center;
+  justify-content: center;
+}
+
+.image--container {
+  background:lightblue;
+  position: relative;
+  width: 550px;
+  height: 550px;
+  transform: scale(0);
+  display: none;
+  align-self: center;
+  /* animation: 1.5s ease-in 0s 1 slideInFromLeft; */
+}
+.image--contents {
+  display: inline-block;
+  height: 550px;
+  width: 550px;
+  position:relative
+}
+
+h1 {
+  font-family: 'Geologica', sans-serif;
+  text-align: center;
+  font-size: 72px;
+  margin: 20px;
+}
+
+.tape {
+  display: flex;
+  flex-direction: row;
+}
+
+.login {
+  display:flex;
+  background-color: black;
+  height: 200px;
+}
+
+.image--downloadable {
+  height:100%;
+  width:100%
+}
+
+@keyframes rotating {
+  from{
+  transform: rotate(0deg);
+  }
+  to{
+  transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation: rotating 2s linear infinite;
+}
+
+#loading {
+  position: fixed;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  background-color: #fff;
+  z-index: 99;
+  transition: 1s;
+}
+
+#loading-image {
+  z-index: 100;
+  height: 150px;
+  width: auto;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  flex-direction:row;
+  color: black
+}
+.form > * {
+  font-family: 'Geologica';
+  margin-bottom: 10px;
+  height: 50px;
+  width: 40vw;
+  max-width: 270px;
+}
+
+.form > input {
+  width: 90vw;
+  max-width: 550px;
+  text-align: center;
+}
+
+#metadata {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 40px;
+}
+
+.metadata--song {
+  color: black;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  font-family: 'Geologica', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  margin-right: auto;
+}
+
+#metadata--user {
+  font-family: 'myFirstFont';
+  font-size: 30px;
+}
+
+#metadata--header {
+  display: flex;
+align-items: center;
+width: 100%;
+justify-content: left;
+
+}
+
+.metadata--logo {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  align-self: center;
+  height: 50px;
+  margin-right:auto
+}
+
+.metadata--row {
+  display: flex;
+  /* justify-content: start; */
+  align-items: center;
+  width: 100%;
+}
+
+.metadata--artist {
+  display: flex;
+  color: black;
+  font-family: 'Geologica';
+  margin-left: 30px;
+  width: 100px;
+  justify-content: right;
+  text-align: right;
+}
+
+.form--item{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-family: 'Geologica';
+}
+
+
+option{
+  font-family:'Geologica';
+  text-align:center
+}
+
+select{
+  font-family:'Geologica';
+  text-align: center;
+  font-size: 14px;
+  color:black;
+  background-color: rgb(241, 241, 241);
+}
+
+form{
+  font-family: 'Geologica';
+  color:black;
+}
+
+button{
+  font-size: 14px;
+  color:black
+}
+
+.form--left {
+  margin-right:auto;
+}
+
+.form--full {
+  width: 100%;
+  max-width: 100%;
+}
+
+#metadata--background {
+  position: absolute;
+  height: 75vw;
+  transform: rotate(90deg);
+  z-index: -1;
+  max-height: 475px;
+  opacity: 0.2;
+  margin-top: 60px;
+}
+
