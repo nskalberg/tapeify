@@ -1,24 +1,29 @@
 {
   "files": {
-    "main.css": "/static/css/main.c495202d.css",
-    "main.js": "/static/js/main.2e60cb76.js",
-    "static/media/cassette_green.png": "/static/media/cassette_green.8861ab839d97756d8d43.png",
-    "static/media/cassette_red.png": "/static/media/cassette_red.90248502f0770daaa317.png",
-    "static/media/cassette_white.png": "/static/media/cassette_white.da671b60aeae9db49c8c.png",
-    "static/media/cassette_blue.png": "/static/media/cassette_blue.79fa21d2bc28ff26d230.png",
-    "static/media/card.png": "/static/media/card.e024b1874a9405266acf.png",
-    "static/media/cassette_black.png": "/static/media/cassette_black.22d9ec84c206fab6cd29.png",
-    "static/media/PhontPhreaks Handwriting.ttf": "/static/media/PhontPhreaks Handwriting.c42e2081e9c5a852bb19.ttf",
-    "static/media/tape.png": "/static/media/tape.80c98d5cb16d27545925.png",
-    "static/media/tape_cropped.png": "/static/media/tape_cropped.441db4ae271d49ef0492.png",
-    "static/media/Spotify_Logo_RGB_Black.png": "/static/media/Spotify_Logo_RGB_Black.0d1e5545dee9f6dc1079.png",
-    "static/media/record.png": "/static/media/record.7c4b1ed500d95f97395f.png",
-    "index.html": "/index.html",
-    "main.c495202d.css.map": "/static/css/main.c495202d.css.map",
-    "main.2e60cb76.js.map": "/static/js/main.2e60cb76.js.map"
+    "main.css": "/tapeify/static/css/main.70d672c3.css",
+    "main.js": "/tapeify/static/js/main.debd11cb.js",
+    "static/media/indexcard.png": "/tapeify/static/media/indexcard.bb105067e88343ad15fe.png",
+    "static/media/tapeify_blue.png": "/tapeify/static/media/tapeify_blue.0e55c7feb2a08e528e42.png",
+    "static/media/tapeify_green.png": "/tapeify/static/media/tapeify_green.e3b4a3b14b18433b85db.png",
+    "static/media/tapeify_red.png": "/tapeify/static/media/tapeify_red.f27aa627f08fea59f63e.png",
+    "static/media/tapeify_black.png": "/tapeify/static/media/tapeify_black.447dfe94361f338422f8.png",
+    "static/media/tapeify_white.png": "/tapeify/static/media/tapeify_white.447dfe94361f338422f8.png",
+    "static/media/cassette_green.png": "/tapeify/static/media/cassette_green.8861ab839d97756d8d43.png",
+    "static/media/cassette_red.png": "/tapeify/static/media/cassette_red.90248502f0770daaa317.png",
+    "static/media/cassette_white.png": "/tapeify/static/media/cassette_white.da671b60aeae9db49c8c.png",
+    "static/media/cassette_blue.png": "/tapeify/static/media/cassette_blue.79fa21d2bc28ff26d230.png",
+    "static/media/cassette_black.png": "/tapeify/static/media/cassette_black.22d9ec84c206fab6cd29.png",
+    "static/media/PhontPhreaks Handwriting.ttf": "/tapeify/static/media/PhontPhreaks Handwriting.c42e2081e9c5a852bb19.ttf",
+    "static/media/tape.png": "/tapeify/static/media/tape.80c98d5cb16d27545925.png",
+    "static/media/tape_cropped.png": "/tapeify/static/media/tape_cropped.441db4ae271d49ef0492.png",
+    "static/media/Spotify_Logo_RGB_Black.png": "/tapeify/static/media/Spotify_Logo_RGB_Black.0d1e5545dee9f6dc1079.png",
+    "static/media/record.png": "/tapeify/static/media/record.7c4b1ed500d95f97395f.png",
+    "index.html": "/tapeify/index.html",
+    "main.70d672c3.css.map": "/tapeify/static/css/main.70d672c3.css.map",
+    "main.debd11cb.js.map": "/tapeify/static/js/main.debd11cb.js.map"
   },
   "entrypoints": [
-    "static/css/main.c495202d.css",
-    "static/js/main.2e60cb76.js"
+    "static/css/main.70d672c3.css",
+    "static/js/main.debd11cb.js"
   ]
 }
