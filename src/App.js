@@ -18,11 +18,12 @@ function App() {
   const RESPONSE_TYPE = "token";
   const [timeframe, setTimeframe] = useState("6 MONTHS");
   const [spotify, setSpotify] = useState();
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("TAPEIFY");
   const [token, setToken] = useState("");
   const [responseData, setResponseData] = useState({});
   const [songData, setSongData] = useState([]);
   const [marginValue, setMarginValue] = useState(0);
+  const [userFontSize, setUserFontSize] = useState(22)
   const [formData, setFormData] = useState({
     color: "",
     timeframe: "",
@@ -41,35 +42,41 @@ function App() {
   function create() {
     const finalImage = document.getElementById("finalImage");
     finalImage != null && finalImage.remove();
-    loading.style.display = "flex";
-    loading.style.opacity = "1";
-    document.getElementById("image--contents").style.display = "block";
-    const date = new Date();
-    setDateString(
-      date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear()
-    );
-    setTimeframe(formData.timeframe);
-    setSongData([]);
-    setMarginValue(0);
-    setIsDone(false);
-    getUsername(token);
-    getUserData(token);
+    startLoading()
+    
+    setTimeout(() => {
+      document.getElementById("image--contents").style.display = "block";
+      const date = new Date();
+      setDateString(
+        date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear()
+      );
+      setTimeframe(formData.timeframe);
+      setSongData([]);
+      setMarginValue(0);
+      setUserFontSize(22);
+      setIsDone(false);
+      getUsername(token);
+      getUserData(token);
+    }, 1000)
+    
   }
 
   function done() {
     const finalImage = document.getElementById("image--container");
     const finalContents = document.getElementById("image--contents");
     finalImage.style.transform = "scale(1)";
-    finalContents.style.webkitTransform = "scale(2)";
+    finalContents.style.position = "relative"
+    finalContents.style.left = "320px"
+    finalContents.style.webkitTransform = "scale(3)";
 
     $(document).ready(() => {
       setTimeout(() => {
         domtoimage.toPng(finalImage).then(function (dataUrl) {
           domtoimage
             .toPng(finalImage, {
-              height: 1100,
-              width: 1100,
-              style: { paddingTop: "275px" },
+              height: 1650,
+              width: 1650,
+              style: { paddingTop: "550px"},
             })
             .then(function (dataUrl1) {
               const img = new Image();
@@ -106,8 +113,8 @@ function App() {
   }
 
   function startLoading() {
-    loading.style.display = "flex";
-    loading.style.opacity = "1";
+    loading.style.display = "flex"
+    setTimeout(() => (loading.style.opacity = "1"), 1);
   }
 
   function endLoading() {
@@ -228,6 +235,13 @@ function App() {
     }
   }, [responseData]);
 
+  useEffect(() => {
+    console.log("hi")
+    if(document.getElementById("username").scrollWidth > 185) {
+      setUserFontSize(prev => prev - 1)
+    }
+  }, [username, userFontSize])
+
   const logout = () => {
     setToken("");
     window.localStorage.removeItem("token");
@@ -323,16 +337,17 @@ function App() {
   }
 
   return (
-    <div className="main">
+    <div id="main-container" style={{backgroundImage: "url("+require(`./images/tapeify_${activeColor}.png`)+")"}} className="main-container">
+      <div className="main">
       <script
         src="https://code.jquery.com/jquery-3.7.0.js"
         integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
         crossOrigin="anonymous"
       ></script>
       <header className="App-header">
-        <h1>tapeify</h1>
-        <p>{document.getElementById("username") && document.getElementById("username").style.left}</p>
-        <p>{debugValue}</p>
+        <h1
+          style={{color: inkColor}}
+        >tapeify</h1>
         <div className="form">{formElements}</div>
       </header>
       <div
@@ -346,6 +361,7 @@ function App() {
         className="image--container"
       >
         <div id="image--contents" className="image--container_contents">
+          <img className="card-image" src={require('./images/indexcard.png')} />
           <Card
             songData={songData}
             inkColor={inkColor}
@@ -380,7 +396,7 @@ function App() {
               id="username"
               style={{
                 color: inkColor,
-                fontSize: "22px",
+                fontSize: userFontSize,
               }}
               className="tape--text"
             >
@@ -390,7 +406,7 @@ function App() {
               id="date"
               style={{
                 color: inkColor,
-                left: "334px",
+                left: "336px",
               }}
               className="tape--date"
             >
@@ -400,15 +416,16 @@ function App() {
         </div>
       </div>
       <Metadata metadata={metadata} spotify={spotify} username={username} />
-      <div style={{ display: "none" }} id="loading">
+      <div style={{display: "none", transition: "1s" }} id="loading">
         <img
-          className="rotating"
           id="loading-image"
-          src={require(`./images/record.png`)}
+          src={require(`./images/tapeify_loading.gif`)}
           alt="Loading..."
         />
       </div>
     </div>
+    </div>
+    
   );
 }
 

@@ -3,6 +3,22 @@
   src: url("./fonts/PhontPhreaks Handwriting.ttf");
 }
 
+.main-container {
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  /* background-image: url('./images/tapeify_green.png'); */
+  background-size: min(20vw, 20vh) min(20vw, 20vh);
+  background-position: top;
+  height: 100%;
+  box-shadow: inset 0px 0px 15px 3vw rgba(255,255,255, 1);
+}
+
+body {
+  margin: 0px 0px;
+}
+
 .main {
   display:flex;
   flex-direction:column;
@@ -10,6 +26,15 @@
   max-width: 550px;
   justify-content:right;
   -webkit-font-smoothing: subpixel-antialiased;
+  height: 100%;
+}
+
+.App-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
 }
 
 form {
@@ -30,16 +55,14 @@ form {
   position: absolute;
   padding-top: 20px;
   padding-bottom: 20px;
-  height: 400px;
+  height: 450px;
   width: 240px;
-  top: 75px;
+  top: 40px;
   left: 35px;
   display: flex;
-  background-image: url("./images/card.png");
   flex-direction: column;
   transform: rotate(-2deg);
   box-sizing: border-box;
-  /* animation: 4s ease-in-out 0s 1 spinCassette; */
 }
 
 #spotify-logo {
@@ -49,17 +72,22 @@ form {
   left: 225px;
 }
 
-.card--image {
-  height: 100%;
+.card-image {
+  height: 500px;
+  width: auto;
+  position: relative;
+  top: 27px;
+  left: 7px;
+  transform: rotate(2.75deg);
 }
 
 .cassette {
   position: absolute;
-  height: 390px;
+  height: 400px; 
   transform: rotate(2deg);
-  top: 80px;
-  left: 270px;
-  filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.5));
+  top: 72px;
+  left: 265px;
+  filter: drop-shadow(5px 5px 4px rgba(0, 0, 0, 0.3));
 }
 
 .tape--image {
@@ -119,14 +147,15 @@ form {
   color: #00395d;
   position: absolute;
   top: 250px;
-  left: 231px;
+  left: 238px;
   height: 42px;
-  width: 200px;
+  width: 185px;
   transform: rotate(-88deg);
   text-align: center;
   align-items: center;
   font-weight: bold;
   justify-content: center;
+  white-space: nowrap;
 }
 
 .card--timeframe{
@@ -137,6 +166,7 @@ form {
   left: -47px;
   font-size: 36px;
   color: #00395d;
+  display: none;
 }
 
 .card--text {
@@ -145,8 +175,8 @@ form {
   color: #00395d;
   font-weight: normal;
   line-height: 0.65;
-  width: 155px;
-  margin-left: 70px;
+  width: 185px;
+  margin-left: 45px;
   display: flex;
   align-items: center;
 }
@@ -165,6 +195,7 @@ form {
   transform: scale(0);
   display: none;
   align-self: center;
+  /* box-shadow: 0px 0px 15px 15px rgba(255,255,255, 1); */
   /* animation: 1.5s ease-in 0s 1 slideInFromLeft; */
 }
 .image--contents {
@@ -179,6 +210,10 @@ h1 {
   text-align: center;
   font-size: 72px;
   margin: 20px;
+  background-color: white;
+  box-shadow: 0px 0px 15px 15px rgba(255,255,255, 1);
+  width: 300px;
+  border-radius: 25%;
 }
 
 .tape {
@@ -212,23 +247,27 @@ h1 {
 
 #loading {
   position: fixed;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  opacity: 1;
+  opacity: 0;
   background-color: #fff;
   z-index: 99;
   transition: 1s;
+  background-size: min(20vw, 20vh) min(20vw, 20vh);
+  background-position: top;
 }
 
 #loading-image {
   z-index: 100;
-  height: 150px;
+  height: 175px;
   width: auto;
+  background-color: white;
+  box-shadow: 0px 0px 15px 15px rgba(255,255,255, 1);
 }
 
 .form {
@@ -236,8 +275,9 @@ h1 {
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 20px;
-  flex-direction:row;
-  color: black
+  flex-direction: row;
+  color: black;
+  width: 100%;
 }
 .form > * {
   font-family: 'Geologica';
